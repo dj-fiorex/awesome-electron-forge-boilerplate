@@ -1,0 +1,8 @@
+{
+    "base": ".",
+    "tsconfig": "tsconfig.json",
+    "schemas": "src/bridges/schemas/",
+    "output": "src/bridges/generated/",
+    "main": false,
+    "verbose": true
+  }
