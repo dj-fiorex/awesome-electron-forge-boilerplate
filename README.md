@@ -7,6 +7,7 @@ I created this boilerplate to start an Electron application using most popular t
 - [electron-log](https://github.com/megahertz/electron-log) to be able to show and persist logs
 - [@lpfreelance/electron-bridge](https://github.com/poirierlouis/electron-bridge) to be able to follow best security practices for Electron with easy!
 - [@timfish/webpack-asset-relocator-loader](https://github.com/poirierlouis/electron-bridge), fork of Vercel package to be able to include native_modules to the main process that works with Electron.
+- Custom hook in the file `forge.config.ts` that run every time tha app is packaged and fix native_modules. (At this time it will install serialport)
 - [React](https://beta.reactjs.org/) as framework for the UI
 - [MUI](https://mui.com/joy-ui/getting-started/overview/) for styling the UI
 

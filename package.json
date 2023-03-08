@@ -7,7 +7,7 @@
   "scripts": {
     "generate-schema": "eb generate ./src/bridges/bridge.config.json",
     "start": "electron-forge start --inspect-electron",
-    "package": "electron-forge package",
+    "package": "rimraf out && electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx ."
@@ -39,6 +39,7 @@
     "eslint-plugin-import": "^2.25.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "node-loader": "^2.0.0",
+    "rimraf": "^4.3.1",
     "style-loader": "^3.0.0",
     "ts-loader": "^9.2.2",
     "ts-node": "^10.0.0",
