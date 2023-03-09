@@ -18,6 +18,8 @@ interface FormInputProps {
 }
 
 export const Settings: React.FC<FormInputProps> = (props) => {
+  const [started, setStarted] = useState(false);
+
   const [settings, setLocalState, updateKey, saveSettings] = useAppSettings();
 
   const [serialPorts, setSerialPorts] = useState<string[]>([]);
@@ -50,6 +52,19 @@ export const Settings: React.FC<FormInputProps> = (props) => {
     console.log("save");
     console.log(settings);
     saveSettings(settings);
+  };
+
+  const saveStart = async () => {
+    console.log("saveStart");
+    console.log(settings);
+    if (started) {
+      await window.application.stop();
+      setStarted(false);
+      return;
+    }
+    saveSettings(settings);
+    await window.application.start();
+    setStarted(true);
   };
 
   return (
@@ -103,8 +118,8 @@ export const Settings: React.FC<FormInputProps> = (props) => {
             indicator={false}
             value={settings?.serialPort ?? ""}
             onChange={(e: any) => {
-              console.log(e.target.textContent);
-              updateSetting("serialPort", e.target.textContent);
+              console.log(e);
+              updateSetting("serialPort", e?.target?.textContent);
             }}
             placeholder={serialPortSelectPlaceholder}
             endDecorator={
@@ -170,7 +185,7 @@ export const Settings: React.FC<FormInputProps> = (props) => {
         }}
       >
         <Button onClick={save}>Save settings</Button>
-        <Button>Save & Start</Button>
+        <Button onClick={saveStart}>{started ? "Stop" : "Save & Start"}</Button>
       </Box>
     </Grid>
   );

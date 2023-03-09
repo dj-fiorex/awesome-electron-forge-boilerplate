@@ -30,15 +30,23 @@ export class MainApplication implements IMainApplication {
   }
 
   public start(): void {
+    this.logger.info(
+      "Starting application",
+      this.started,
+      this.store.get("serialPort"),
+      this.store.get("serialBaudRate")
+    );
     // Do something
     if (this.started) {
       return;
     }
-    this.serial = new SerialPortModule(
-      this.store.get("serialPort"),
-      this.store.get("serialBaudRate"),
-      DELIMITER
-    );
+    if (!this.store.get("serialPort") || !this.store.get("serialBaudRate")) {
+      this.logger.error("Serial port or baud rate not set");
+      return;
+    }
+    this.serial.setPort(this.store.get("serialPort"));
+    this.serial.setBaudRate(this.store.get("serialBaudRate"));
+    this.serial.start();
     this.started = true;
   }
 
@@ -48,5 +56,6 @@ export class MainApplication implements IMainApplication {
       return;
     }
     this.serial.stop();
+    this.started = false;
   }
 }

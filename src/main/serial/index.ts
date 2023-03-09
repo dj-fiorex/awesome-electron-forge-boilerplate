@@ -39,9 +39,23 @@ export class SerialPortModule implements ISerialPort {
     }
   }
 
+  public setPort(port: string): void {
+    // Do something
+    this.port = port;
+  }
+
+  public setBaudRate(baudRate: number): void {
+    // Do something
+    this.baudRate = baudRate;
+  }
+
   public start(): boolean {
     // Do something
     if (this.started) {
+      return false;
+    }
+    if (!this.port || !this.baudRate) {
+      this.logger.error("Serial port or baud rate not set");
       return false;
     }
     this.logger.info(
@@ -130,6 +144,7 @@ export class SerialPortModule implements ISerialPort {
 
   private onPortError(error: Error) {
     this.logger.error(`Error:`, error);
+    this.started = false;
     // Do something
     //logger?.emit("added", `${LOG_TAG} Error: ${error}`);
     //errorCb(error);
@@ -137,6 +152,7 @@ export class SerialPortModule implements ISerialPort {
 
   private onPortClosed() {
     this.logger.info(`Port closed`);
+    this.started = false;
     // Do something
     //logger?.emit("added", `${LOG_TAG} Port closed`);
     //closeCb();
@@ -165,6 +181,7 @@ export class SerialPortModule implements ISerialPort {
 
   private onParserError(error: Error) {
     this.logger.error(`Parser error: `, error);
+    this.started = false;
     // Do something
     //logger?.emit("added", `${LOG_TAG} Parser error: ${error}`);
     //parserErrorCb(error);
