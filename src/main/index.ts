@@ -38,7 +38,7 @@ const store = new Store<StoreType>({
   },
 });
 
-const application = new MainApplication(store, log.scope("MAIN-APP"));
+const application = new MainApplication(store, log);
 
 const initializeBridges = (): void => {
   // Create bridge service.
@@ -84,6 +84,10 @@ const createWindow = (): void => {
     },
   });
 
+  if (process.platform !== "darwin") {
+    mainWindow.removeMenu();
+  }
+
   mainLog.info("Create windows");
 
   mainWindow.on("closed", () => {
@@ -98,8 +102,10 @@ const createWindow = (): void => {
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
+  if (process.env.WEBPACK_SERVE) {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  }
 };
 
 // This method will be called when Electron has finished
@@ -110,9 +116,10 @@ app.on("ready", createWindow);
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on("window-all-closed", () => {
+app.on("window-all-closed", async () => {
   mainLog.info("All windows closed");
   if (process.platform !== "darwin") {
+    await application.stop();
     app.quit();
   }
 });

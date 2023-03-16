@@ -23,3 +23,10 @@ To use this boilerplate for your next project use the Github UI to "Use as templ
 - Generate bridge files from schema: `yarn run generate-schema`
 - Run dev mode: `yarn start`
 - Package app: `yarn run package`
+
+
+## Changelog
+
+- Version 1.0.1:
+
+    - Add scoped log to serial

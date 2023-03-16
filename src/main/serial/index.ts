@@ -54,7 +54,7 @@ export class SerialPortModule implements ISerialPort {
     if (this.started) {
       return false;
     }
-    if (!this.port || !this.baudRate) {
+    if (!this.port || !this.baudRate || !this.delimiter) {
       this.logger.error("Serial port or baud rate not set");
       return false;
     }
